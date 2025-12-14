@@ -129,9 +129,6 @@ function addMessage(text, sender) {
 }
 
 
-
-
-
 /* =============================================
    SEND MESSAGE TO BACKEND (GRAMMAR + REPLY)
 ============================================= */
@@ -183,8 +180,6 @@ async function sendMessage(text) {
   addMessage(data.reply, "ai");
   speak(data.reply);
 }
-
-
 
 
 document.getElementById("sendBtn").onclick = ()=>{
@@ -393,7 +388,7 @@ document.body.addEventListener("click", async e => {
   globalPopup.style.left = rect.left + "px";
 
 
-  
+
   // Lấy danh sách từ hiện có trong vocab table
 const existingWords = Array.from(document.querySelectorAll('#vocabTbody .learnedChk'))
   .map(chk => chk.dataset.word.toLowerCase());
