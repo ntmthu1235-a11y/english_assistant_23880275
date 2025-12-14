@@ -358,32 +358,7 @@ document.body.addEventListener("click", async e => {
 
   globalPopup.style.display = "block";
 
-   // Lấy danh sách từ hiện có trong vocab table
-const existingWords = Array.from(document.querySelectorAll('#vocabTbody .learnedChk'))
-  .map(chk => chk.dataset.word.toLowerCase());
-
-// Nếu từ chưa có → lưu
-if (!existingWords.includes(data.word.toLowerCase())) {
-  try {
-    await fetch('./api/vocab', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      word: data.word,
-      ipa: data.ipa || "",
-      translation: data.vietnameseMeaning || "",
-      audio: data.audio || "",
-      isLearned: false,
-      timeSaved: Date.now()
-    })
-  });
-  } catch (err) {
-    console.error("❌ Error saving vocab:", err);
-  }
-} else {
-  console.log(`"${data.word}" already exists in vocab list, skipping save.`);
-}
-
+   
   // ---------------------------------------------------
   // 🔥 AUTO-POSITION KHÔNG BỊ CHE
   // ---------------------------------------------------
@@ -416,6 +391,36 @@ if (!existingWords.includes(data.word.toLowerCase())) {
 
   // căn trái theo từ
   globalPopup.style.left = rect.left + "px";
+
+
+  
+  // Lấy danh sách từ hiện có trong vocab table
+const existingWords = Array.from(document.querySelectorAll('#vocabTbody .learnedChk'))
+  .map(chk => chk.dataset.word.toLowerCase());
+
+
+
+// Nếu từ chưa có → lưu
+if (!existingWords.includes(data.word.toLowerCase())) {
+  try {
+    await fetch('./api/vocab', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      word: data.word,
+      ipa: data.ipa || "",
+      translation: data.vietnameseMeaning || "",
+      audio: data.audio || "",
+      isLearned: false,
+      timeSaved: Date.now()
+    })
+  });
+  } catch (err) {
+    console.error("❌ Error saving vocab:", err);
+  }
+} else {
+  console.log(`"${data.word}" already exists in vocab list, skipping save.`);
+}
 
 
   loadVocabList();
@@ -506,6 +511,7 @@ document.getElementById('closeVocab').onclick = () => {
 //     })
 //   );
 // }
+
 async function loadVocabList() {
   const res = await fetch('./api/vocab');
   const data = await res.json();
