@@ -343,7 +343,7 @@ document.body.addEventListener("click", async e => {
   const word = wordEl.dataset.word.toLowerCase();
   if(!word) return;
 
-  // 1️⃣ Lấy nghĩa
+  // 1️⃣ Lấy nghĩa 
   const res = await fetch(`./api/translate?word=${word}`);
   const data = await res.json();
 
