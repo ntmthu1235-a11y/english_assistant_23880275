@@ -407,18 +407,102 @@ document.getElementById('closeVocab').onclick = () => {
   vocabModal.style.display = 'none';
 };
 
-async function loadVocabList(){
+// async function loadVocabList(){
+//   const res = await fetch('./api/vocab');
+//   const data = await res.json();
+//   const sorted = [...data.vocab].sort((a,b)=> b.timeSaved - a.timeSaved);
+
+//   vocabTbody.innerHTML = '';
+//   if(sorted.length === 0){
+//     vocabTbody.innerHTML = '<tr><td colspan="6">No saved words yet.</td></tr>';
+//     return;
+//   }
+
+//   for(const v of sorted){
+//     const tr = document.createElement('tr');
+//     tr.innerHTML = `
+//       <td><strong>${v.word}</strong><div style="font-size:12px;color:#666">Saved: ${new Date(v.timeSaved).toLocaleString()}</div></td>
+//       <td><em>${v.ipa || ''}</em></td>
+//       <td>${v.translation || ''}</td>
+//       <td>${v.audio ? '<button class="smallBtn playBtn" data-audio="'+v.audio+'">🔊 Play</button>' : '—'}</td>
+//       <td><input type="checkbox" class="learnedChk" data-word="${v.word}" ${v.isLearned? 'checked':''}></td>
+//       <td class="vocabActions">
+//         <button class="smallBtn delBtn" data-word="${v.word}">Delete</button>
+//       </td>
+//     `;
+//     vocabTbody.appendChild(tr);
+//   }
+
+//   document.querySelectorAll('.playBtn').forEach(b=> b.addEventListener('click', (e)=>{
+//     const url = e.currentTarget.dataset.audio; if(!url) return; new Audio(url).play();
+//   }));
+
+//   document.querySelectorAll('.learnedChk').forEach(chk => 
+//   chk.addEventListener('change', async (e) => {
+//     const word = e.currentTarget.dataset.word;
+
+//     try {
+//       const res = await fetch('./api/vocab/learned', {
+//         method: 'POST',
+//         headers: { 'Content-Type': 'application/json' },
+//         body: JSON.stringify({ word })
+//       });
+
+//       const data = await res.json();
+
+//       if (data.status === "ok") {
+//         // ✅ Cập nhật trạng thái checkbox theo phản hồi server
+//         e.currentTarget.checked = data.isLearned;
+
+//         // ✅ (Tuỳ chọn) đổi style của dòng từ
+//         const row = e.currentTarget.closest(".vocab-item");
+//         if (row) {
+//           row.classList.toggle("learned", data.isLearned);
+//         }
+//       } else {
+//         console.error("Server error:", data.error);
+//       }
+//     } catch (err) {
+//       console.error("Network error:", err);
+//     }
+//   })
+// );
+
+
+//   document.querySelectorAll('.delBtn').forEach(b =>
+//   b.addEventListener('click', async (e) => {
+
+//     const word = e.currentTarget.dataset.word;
+//     if (!confirm(`Delete "${word}" from vocabulary?`)) return;
+
+//     const res = await fetch(`./api/vocab/${word}`, {
+//       method: "DELETE"
+//     });
+
+//     const json = await res.json();
+//     console.log("DELETE RESULT:", json);
+
+//     await loadVocabList();
+//   }));
+
+
+// }
+async function loadVocabList() {
   const res = await fetch('./api/vocab');
   const data = await res.json();
-  const sorted = [...data.vocab].sort((a,b)=> b.timeSaved - a.timeSaved);
+
+  // đảm bảo data.vocab là mảng
+  const vocabArray = Array.isArray(data.vocab) ? data.vocab : [];
+
+  const sorted = [...vocabArray].sort((a, b) => b.timeSaved - a.timeSaved);
 
   vocabTbody.innerHTML = '';
-  if(sorted.length === 0){
+  if (sorted.length === 0) {
     vocabTbody.innerHTML = '<tr><td colspan="6">No saved words yet.</td></tr>';
     return;
   }
 
-  for(const v of sorted){
+  for (const v of sorted) {
     const tr = document.createElement('tr');
     tr.innerHTML = `
       <td><strong>${v.word}</strong><div style="font-size:12px;color:#666">Saved: ${new Date(v.timeSaved).toLocaleString()}</div></td>
@@ -433,60 +517,36 @@ async function loadVocabList(){
     vocabTbody.appendChild(tr);
   }
 
-  document.querySelectorAll('.playBtn').forEach(b=> b.addEventListener('click', (e)=>{
-    const url = e.currentTarget.dataset.audio; if(!url) return; new Audio(url).play();
+  document.querySelectorAll('.playBtn').forEach(b => b.addEventListener('click', (e) => {
+    const url = e.currentTarget.dataset.audio; if (!url) return; new Audio(url).play();
   }));
 
-  document.querySelectorAll('.learnedChk').forEach(chk => 
-  chk.addEventListener('change', async (e) => {
-    const word = e.currentTarget.dataset.word;
+  document.querySelectorAll('.learnedChk').forEach(chk =>
+    chk.addEventListener('change', async (e) => {
+      const word = e.currentTarget.dataset.word;
 
-    try {
-      const res = await fetch('./api/vocab/learned', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ word })
-      });
+      try {
+        const res = await fetch('./api/vocab/learned', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ word })
+        });
 
-      const data = await res.json();
-
-      if (data.status === "ok") {
-        // ✅ Cập nhật trạng thái checkbox theo phản hồi server
-        e.currentTarget.checked = data.isLearned;
-
-        // ✅ (Tuỳ chọn) đổi style của dòng từ
-        const row = e.currentTarget.closest(".vocab-item");
-        if (row) {
-          row.classList.toggle("learned", data.isLearned);
+        const data = await res.json();
+        if (data.status === "ok") {
+          e.currentTarget.checked = data.isLearned;
+          const row = e.currentTarget.closest(".vocab-item");
+          if (row) row.classList.toggle("learned", data.isLearned);
+        } else {
+          console.error("Server error:", data.error);
         }
-      } else {
-        console.error("Server error:", data.error);
+      } catch (err) {
+        console.error("Network error:", err);
       }
-    } catch (err) {
-      console.error("Network error:", err);
-    }
-  })
-);
-
-
-  document.querySelectorAll('.delBtn').forEach(b =>
-  b.addEventListener('click', async (e) => {
-
-    const word = e.currentTarget.dataset.word;
-    if (!confirm(`Delete "${word}" from vocabulary?`)) return;
-
-    const res = await fetch(`./api/vocab/${word}`, {
-      method: "DELETE"
-    });
-
-    const json = await res.json();
-    console.log("DELETE RESULT:", json);
-
-    await loadVocabList();
-  }));
-
-
+    })
+  );
 }
+
 
 /* Close modal when click outside */
 vocabModal.addEventListener('click', (e)=>{
