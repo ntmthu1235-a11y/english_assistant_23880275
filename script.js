@@ -1,5 +1,5 @@
 // ===== CONFIG =====
-const backend = "http://localhost:3000";
+const backend = "";
 
 /* =============================================
    AUTO LISTEN (MICROPHONE)
@@ -144,7 +144,7 @@ async function sendMessage(text) {
   document.getElementById("chatInput").value = "";
 
   // Gửi request lên backend
-  const res = await fetch(backend + "/chat-grammar", {
+  const res = await fetch("./api/chat-grammar", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ text })
@@ -343,7 +343,7 @@ document.body.addEventListener("click", async e => {
   const word = wordEl.dataset.word.toLowerCase();
   if(!word) return;
 
-  const res = await fetch(`${backend}/translate?word=${word}`);
+  const res = await fetch(`./api/translate?word=${word}`);
   const data = await res.json();
 
   globalPopup.innerHTML = `
@@ -408,7 +408,7 @@ document.getElementById('closeVocab').onclick = () => {
 };
 
 async function loadVocabList(){
-  const res = await fetch(backend + '/vocab');
+  const res = await fetch('./api/vocab');
   const data = await res.json();
   const sorted = [...data.vocab].sort((a,b)=> b.timeSaved - a.timeSaved);
 
@@ -442,7 +442,7 @@ async function loadVocabList(){
     const word = e.currentTarget.dataset.word;
 
     try {
-      const res = await fetch(backend + '/vocab/learned', {
+      const res = await fetch('./api/vocab/learned', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ word })
@@ -475,7 +475,7 @@ async function loadVocabList(){
     const word = e.currentTarget.dataset.word;
     if (!confirm(`Delete "${word}" from vocabulary?`)) return;
 
-    const res = await fetch(`${backend}/vocab/${word}`, {
+    const res = await fetch(`./api/vocab/${word}`, {
       method: "DELETE"
     });
 
@@ -506,11 +506,11 @@ let chart;
 // -------- LOAD DASHBOARD --------
 async function loadDashboard(range = 7) {
   // Load daily study (hours)
-  const res = await fetch(`${backend}/stats/daily-study${range === 30 ? "?range=30" : ""}`);
+  const res = await fetch(`./api/stats-daily-study${range === 30 ? "?range=30" : ""}`);
   const study = await res.json();
 
   // Load full stats
-  const statsRes = await fetch(`${backend}/stats`);
+  const statsRes = await fetch(`./api/stats`);
   const fullStats = await statsRes.json();
 
   const sessionStats = fullStats.sessionStats ?? [];
@@ -587,7 +587,7 @@ window.addEventListener("beforeunload", () => {
 
   console.log("📤 Sending session data:", payload);
 
-  fetch(backend + "/session/end", {
+  fetch("./api/session-end", {
     method: "POST",
     headers: {
       "Content-Type": "application/json"
