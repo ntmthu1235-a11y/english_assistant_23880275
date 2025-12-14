@@ -1,32 +1,74 @@
-// api/session-end.js
+// // api/session-end.js
+// import { getRedisClient } from '../_redis.js';
+
+// export default async function handler(req, res) {
+//   if (req.method !== 'POST') return res.status(405).end();
+
+//   const { start, end } = req.body;
+//   if (!start || !end) return res.status(400).json({ error: "Missing start/end" });
+
+//   const client = await getRedisClient();
+
+//   // Lấy dữ liệu hiện tại từ Redis
+//   const raw = await client.get('app_data');
+//   let data = raw ? JSON.parse(raw) : {};
+
+//   const durationSeconds = Math.floor((new Date(end) - new Date(start)) / 1000);
+
+//   if (!data.sessionStats) data.sessionStats = [];
+//   if (!data.dailyStudyTime) data.dailyStudyTime = {};
+
+//   // Thêm session
+//   data.sessionStats.push({ start, end, durationSeconds });
+
+//   // Cập nhật dailyStudyTime
+//   const dayKey = start.slice(0, 10);
+//   data.dailyStudyTime[dayKey] = (data.dailyStudyTime[dayKey] || 0) + durationSeconds;
+
+//   // Lưu lại Redis
+//   await client.set('app_data', JSON.stringify(data));
+
+//   res.json({ ok: true, durationSeconds });
+// }
+// /api/session-end.js
 import { getRedisClient } from '../_redis.js';
 
 export default async function handler(req, res) {
-  if (req.method !== 'POST') return res.status(405).end();
+  if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
 
-  const { start, end } = req.body;
-  if (!start || !end) return res.status(400).json({ error: "Missing start/end" });
+  try {
+    const { start, end } = req.body;
+    if (!start || !end) return res.status(400).json({ error: 'Missing start or end' });
 
-  const client = await getRedisClient();
+    const durationSeconds = Math.floor((new Date(end) - new Date(start)) / 1000);
 
-  // Lấy dữ liệu hiện tại từ Redis
-  const raw = await client.get('app_data');
-  let data = raw ? JSON.parse(raw) : {};
+    const client = await getRedisClient();
+    const raw = await client.get('app_data');
+    const data = raw ? JSON.parse(raw) : {};
 
-  const durationSeconds = Math.floor((new Date(end) - new Date(start)) / 1000);
+    if (!data.sessionStats) data.sessionStats = [];
+    if (!data.dailyStudyTime) data.dailyStudyTime = {};
 
-  if (!data.sessionStats) data.sessionStats = [];
-  if (!data.dailyStudyTime) data.dailyStudyTime = {};
+    // Thêm session
+    data.sessionStats.push({ start, end, durationSeconds });
 
-  // Thêm session
-  data.sessionStats.push({ start, end, durationSeconds });
+    // Cập nhật dailyStudyTime
+    const dayKey = start.slice(0, 10);
+    data.dailyStudyTime[dayKey] = (data.dailyStudyTime[dayKey] || 0) + durationSeconds;
 
-  // Cập nhật dailyStudyTime
-  const dayKey = start.slice(0, 10);
-  data.dailyStudyTime[dayKey] = (data.dailyStudyTime[dayKey] || 0) + durationSeconds;
+    // Lưu vào Redis
+    await client.set('app_data', JSON.stringify(data));
 
-  // Lưu lại Redis
-  await client.set('app_data', JSON.stringify(data));
+    // Trả về đầy đủ thông tin cho frontend
+    res.status(200).json({
+      ok: true,
+      durationSeconds,
+      day: dayKey,
+      totalTodaySeconds: data.dailyStudyTime[dayKey]
+    });
 
-  res.json({ ok: true, durationSeconds });
+  } catch (err) {
+    console.error('❌ /api/session-end error:', err);
+    res.status(500).json({ error: 'Server error' });
+  }
 }
