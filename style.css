@@ -239,6 +239,13 @@ header {
   border: 0;
   cursor: pointer;
 }
+.smallBtn:hover {
+  background-color: #eee;
+}
+.smallBtn:active {
+  transform: scale(0.95);
+}
+
 .vocabActions button {
   margin-right: 6px;
   padding: 6px 8px;
