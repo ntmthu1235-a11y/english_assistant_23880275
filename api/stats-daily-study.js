@@ -1,10 +1,14 @@
-import { readData } from '../_utils.js';
+import { getRedisClient } from '../../_redis.js';
 
-export default function handler(req, res) {
+export default async function handler(req, res) {
   if (req.method !== 'GET') return res.status(405).json({ error: 'Method not allowed' });
 
   const range = parseInt(req.query.range || "7");
-  const data = readData();
+  const client = await getRedisClient();
+
+  // Lấy dữ liệu từ Redis
+  const raw = await client.get('app_data');
+  const data = raw ? JSON.parse(raw) : {};
   const daily = data.dailyStudyTime || {};
 
   const today = new Date();
