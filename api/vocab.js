@@ -1,4 +1,4 @@
-import { readData, saveData } from '../../_utils.js';
+import { readData, saveData } from '../_utils.js';
 
 export default function handler(req, res) {
   if (req.method === 'GET') {
