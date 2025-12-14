@@ -329,6 +329,69 @@ document.body.addEventListener("click", e => {
   }
 });
 
+// document.body.addEventListener("click", async e => {
+//   if (isAIReading) return;
+//   if (e.target.closest(".playIPA")) return;
+//   if (e.target.closest("#globalWordPopup")) return;
+
+//   const wordEl = e.target.closest(".word");
+//   if (!wordEl) {
+//     globalPopup.style.display = "none";
+//     return;
+//   }
+
+//   const word = wordEl.dataset.word.toLowerCase();
+//   if(!word) return;
+
+//   const res = await fetch(`./api/translate?word=${word}`);
+//   const data = await res.json();
+
+//   globalPopup.innerHTML = `
+//     <strong>${data.word}</strong><br>
+//     <span style="color:#7cdfff">🇺🇸:</span><br>${data.englishMeaning || "—"}<br>
+//     <span style="color:#7cff94">🇻🇳:</span><br>${data.vietnameseMeaning || "—"}<br>
+//     <span style="color:#ff7a7a">IPA:</span> <em>${data.ipa || ""}</em><br><br>
+//     ${data.audio ? `<button class="playIPA" data-audio="${data.audio}">🔊 Play</button>` : ""}
+//   `;
+
+//   globalPopup.style.display = "block";
+//   // ---------------------------------------------------
+//   // 🔥 AUTO-POSITION KHÔNG BỊ CHE
+//   // ---------------------------------------------------
+//   const rect = wordEl.getBoundingClientRect();
+//   const popupRect = globalPopup.getBoundingClientRect();
+
+//   const headerHeight = 70;     // chiều cao header
+//   const inputBarHeight = 60;   // chiều cao inputBar
+
+//   // vị trí phía trên
+//   const topAbove = rect.top - popupRect.height - 10;
+
+//   // vị trí phía dưới
+//   const topBelow = rect.bottom + 10;
+
+//   // --- Ưu tiên đặt phía trên ---
+//   if (topAbove > headerHeight) {
+//     globalPopup.style.top = topAbove + "px";
+//   }
+
+//   // --- Nếu trên không đủ chỗ → đặt xuống ---
+//   else if (topBelow < window.innerHeight - inputBarHeight) {
+//     globalPopup.style.top = topBelow + "px";
+//   }
+
+//   // --- Nếu cả hai đều không đủ → đặt giữa màn hình ---
+//   else {
+//     globalPopup.style.top = (window.innerHeight - popupRect.height) / 2 + "px";
+//   }
+
+//   // căn trái theo từ
+//   globalPopup.style.left = rect.left + "px";
+
+
+//   loadVocabList();
+// });
+
 document.body.addEventListener("click", async e => {
   if (isAIReading) return;
   if (e.target.closest(".playIPA")) return;
@@ -343,6 +406,7 @@ document.body.addEventListener("click", async e => {
   const word = wordEl.dataset.word.toLowerCase();
   if(!word) return;
 
+  // 1️⃣ Lấy nghĩa
   const res = await fetch(`./api/translate?word=${word}`);
   const data = await res.json();
 
@@ -353,45 +417,27 @@ document.body.addEventListener("click", async e => {
     <span style="color:#ff7a7a">IPA:</span> <em>${data.ipa || ""}</em><br><br>
     ${data.audio ? `<button class="playIPA" data-audio="${data.audio}">🔊 Play</button>` : ""}
   `;
-
   globalPopup.style.display = "block";
-  // ---------------------------------------------------
-  // 🔥 AUTO-POSITION KHÔNG BỊ CHE
-  // ---------------------------------------------------
-  const rect = wordEl.getBoundingClientRect();
-  const popupRect = globalPopup.getBoundingClientRect();
 
-  const headerHeight = 70;     // chiều cao header
-  const inputBarHeight = 60;   // chiều cao inputBar
-
-  // vị trí phía trên
-  const topAbove = rect.top - popupRect.height - 10;
-
-  // vị trí phía dưới
-  const topBelow = rect.bottom + 10;
-
-  // --- Ưu tiên đặt phía trên ---
-  if (topAbove > headerHeight) {
-    globalPopup.style.top = topAbove + "px";
+  // 2️⃣ Gửi request lưu từ vào vocab list
+  try {
+    await fetch('./api/vocab', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        word: data.word,
+        ipa: data.ipa,
+        translation: data.vietnameseMeaning,
+        audio: data.audio
+      })
+    });
+  } catch (err) {
+    console.error("❌ Error saving vocab:", err);
   }
 
-  // --- Nếu trên không đủ chỗ → đặt xuống ---
-  else if (topBelow < window.innerHeight - inputBarHeight) {
-    globalPopup.style.top = topBelow + "px";
-  }
-
-  // --- Nếu cả hai đều không đủ → đặt giữa màn hình ---
-  else {
-    globalPopup.style.top = (window.innerHeight - popupRect.height) / 2 + "px";
-  }
-
-  // căn trái theo từ
-  globalPopup.style.left = rect.left + "px";
-
-
+  // 3️⃣ Load lại vocab table
   loadVocabList();
 });
-
 /* =============================================
    VOCAB MODAL (TABLE) 
 ============================================= */
