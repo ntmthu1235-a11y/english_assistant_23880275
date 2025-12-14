@@ -518,64 +518,65 @@ async function loadVocabList() {
 
   for (const v of sorted) {
     const tr = document.createElement('tr');
-    tr.classList.add('vocab-item'); // <-- thêm class
+    tr.classList.add('vocab-item'); // quan trọng cho checkbox toggle
     tr.innerHTML = `
       <td><strong>${v.word}</strong><div style="font-size:12px;color:#666">Saved: ${new Date(v.timeSaved).toLocaleString()}</div></td>
       <td><em>${v.ipa || ''}</em></td>
       <td>${v.translation || ''}</td>
       <td>${v.audio ? '<button class="smallBtn playBtn" data-audio="'+v.audio+'">🔊 Play</button>' : '—'}</td>
-      <td><input type="checkbox" class="learnedChk" data-word="${v.word}" ${v.isLearned? 'checked':''}></td>
+      <td><input type="checkbox" class="learnedChk" data-word="${v.word}" ${v.isLearned ? 'checked' : ''}></td>
       <td class="vocabActions">
         <button class="smallBtn delBtn" data-word="${v.word}">Delete</button>
       </td>
     `;
     vocabTbody.appendChild(tr);
   }
-
-  // Gán event cho tất cả nút xóa
-  vocabTbody.querySelectorAll('.delBtn').forEach(btn => {
-    btn.onclick = async (e) => {
-      const word = btn.dataset.word;
-      try {
-        await fetch(`./api/vocab/${word}`, { method: 'DELETE' });
-        loadVocabList(); // reload danh sách
-      } catch(err) {
-        console.error('❌ Error deleting vocab:', err);
-      }
-    };
-  });
-
-  // Gán event cho checkbox learned
-  vocabTbody.querySelectorAll('.learnedChk').forEach(chk => {
-    chk.onchange = async (e) => {
-      const word = chk.dataset.word;
-      try {
-        const res = await fetch('./api/vocab/learned', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ word })
-        });
-        const data = await res.json();
-        if (data.status === "ok") {
-          chk.checked = data.isLearned;
-          chk.closest(".vocab-item")?.classList.toggle("learned", data.isLearned);
-        } else {
-          console.error("Server error:", data.error);
-        }
-      } catch (err) {
-        console.error("Network error:", err);
-      }
-    };
-  });
-
-  // Play audio
-  vocabTbody.querySelectorAll('.playBtn').forEach(btn => {
-    btn.onclick = () => {
-      const url = btn.dataset.audio;
-      if (url) new Audio(url).play();
-    };
-  });
 }
+
+// --- Event delegation cho delete + play audio + checkbox learned ---
+vocabTbody.addEventListener('click', async (e) => {
+  const playBtn = e.target.closest('.playBtn');
+  if (playBtn) {
+    const url = playBtn.dataset.audio;
+    if (url) new Audio(url).play();
+    return;
+  }
+
+  const delBtn = e.target.closest('.delBtn');
+  if (delBtn) {
+    const word = delBtn.dataset.word;
+    try {
+      await fetch(`./api/vocab/${word}`, { method: 'DELETE' });
+      loadVocabList(); // reload sau khi xóa
+    } catch(err) {
+      console.error('❌ Error deleting vocab:', err);
+    }
+    return;
+  }
+
+  const chk = e.target.closest('.learnedChk');
+  if (chk) {
+    const word = chk.dataset.word;
+    try {
+      const res = await fetch('./api/vocab/learned', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ word })
+      });
+      const data = await res.json();
+      if (data.status === "ok") {
+        chk.checked = data.isLearned;
+        chk.closest(".vocab-item")?.classList.toggle("learned", data.isLearned);
+      } else {
+        console.error("Server error:", data.error);
+      }
+    } catch(err) {
+      console.error('Network error:', err);
+    }
+    return;
+  }
+});
+
 
 
 /* Close modal when click outside */
