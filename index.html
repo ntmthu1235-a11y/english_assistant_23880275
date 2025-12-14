@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Messenger Chat English Assistant</title>
+<link rel="stylesheet" href="style.css">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+<header>Speaking English Assistant 💬</header>
+
+<div id="app">
+  <div id="chatWrap">
+    <div id="chatContainer"></div>
+  </div>
+
+  <!-- Input bar ALWAYS at bottom -->
+  <div id="inputBar">
+    <input id="chatInput" placeholder="Type a message...">
+    <button id="sendBtn" class="iconBtn"><img src="images/send.png" class="iconImg" alt="send"></button>
+    <button id="micBtn" class="iconBtn"><img src="images/mic.png" class="iconImg" alt="mic"></button>
+  </div>
+
+  <div id="globalWordPopup" class="wordPopup"></div>
+
+</div>
+
+<!-- Toolbar -->
+<div id="rightToolbar">
+  <div class="toolIcon" id="openVocabBtn" title="Vocabulary">📖</div>
+  <div class="toolIcon" id="openDashBtn" title="Dashboard">📊</div>
+</div>
+
+<!-- Vocab Modal -->
+<div id="vocabModal" class="modalBackdrop">
+  <div class="customModal">
+    <div class="modalHeader">
+      <h3>📖 Vocabulary — Saved words</h3>
+      <div>
+        <button id="closeVocab" class="smallBtn">✕</button>
+      </div>
+    </div>
+
+    <table class="vocabTable">
+      <thead>
+        <tr>
+          <th>Word</th>
+          <th>IPA</th>
+          <th>Meaning (VI)</th>
+          <th>Audio</th>
+          <th>Learned</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody id="vocabTbody"></tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Dashboard Modal -->
+<div id="dashModal" class="modalBackdrop dashboardModal">
+  <div class="modal dashContent">
+
+    <div class="modalHeader">
+      <h3 class="dashTitle">📊 Study Dashboard</h3>
+      <button id="closeDash" class="smallBtn closeBtn">✕</button>
+    </div>
+
+    <!-- STAT CARDS -->
+    <div class="statGrid">
+      <div class="statCard">
+        <div class="statLabel">🔥 Streak</div>
+        <div id="streakValue" class="statValue">0</div>
+      </div>
+
+      <div class="statCard">
+        <div class="statLabel">📚 Total Study (hrs)</div>
+        <div id="totalHours" class="statValue">0</div>
+      </div>
+
+      <div class="statCard">
+        <div class="statLabel">🗂 Sessions</div>
+        <div id="sessionCount" class="statValue">0</div>
+      </div>
+    </div>
+
+    <!-- RANGE BUTTONS -->
+    <div class="rangeButtons">
+      <button id="btn7" class="rangeBtn active">7 days</button>
+      <button id="btn30" class="rangeBtn">30 days</button>
+    </div>
+
+    <!-- CHART -->
+    <canvas id="studyChart"></canvas>
+
+  </div>
+</div>
+
+
+<script src="script.js"></script>
+</body>
+</html>

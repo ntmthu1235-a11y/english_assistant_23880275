@@ -1,0 +1,337 @@
+/* GLOBAL */
+body {
+  font-family: "Segoe UI", sans-serif;
+  background: #e5ddd5;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+header {
+  position: fixed;       /* cố định trên cùng */
+  top: 0;                /* cách top 0px */
+  left: 0;               /* full width */
+  width: 100%;
+  background: #1a73e8;
+  color: #fff;
+  padding: 16px;
+  font-size: 1.5rem;
+  text-align: center;
+  font-weight: bold;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+  z-index: 1000; 
+}
+
+#chatContainer {
+  flex: 1;
+  overflow-y: auto;
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding-bottom: 80px; 
+  padding-top: 80px; 
+}
+
+/* MESSAGES */
+.messageRow {
+  display: flex;
+  align-items: flex-end;
+  gap: 8px;
+  scroll-margin-bottom: 80px;
+}
+.avatar {
+  width:32px;
+  height:32px;
+  border-radius:50%;
+  object-fit:cover;
+}
+.msgBubble {
+  padding: 10px 14px;
+  border-radius:18px;
+  font-size:1rem;
+  max-width:70%;
+  word-wrap:break-word;
+}
+.userMsg {
+  background:lightskyblue;
+  color:#fff;
+  margin-left:auto;
+  border-bottom-right-radius:4px;
+}
+.aiMsg {
+  background:#fff;
+  color:#000;
+  border:1px solid #1a73e8;
+  border-bottom-left-radius:4px;
+}
+
+/* VOCAB WORD POPUP */
+.word {
+  color:#0d47a1;
+  cursor:pointer;
+  font-weight:600;
+}
+.wordPopup {
+  position: fixed;
+  background: #ffffff;
+  border: 1px solid #ccc;
+  padding: 10px;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  z-index: 9999;
+  display: none;
+  max-width: 260px;
+  font-size: 14px;
+  max-height: 200px;
+  overflow-y: auto;
+}
+.word.highlight {
+  border-bottom: 1px dashed #3b82f6;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.word.highlight:hover {
+  color: #2563eb;
+  background-color: #e0f2fe;
+  border-bottom-style: solid;
+}
+/* Contraction → không gạch chân, không popup */
+.word.contraction {
+  color:#0d47a1;
+  text-decoration: none;
+  cursor: default;
+}
+
+
+/* TTS BUTTON */
+.ttsBtn {
+  margin-left: 6px;
+  background: #ffffff55;
+  border: none;
+  cursor: pointer;
+  font-size: 18px;
+  padding: 4px 6px;
+  border-radius: 6px;
+}
+
+/* INPUT BAR FIXED BOTTOM */
+#inputBar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 10px;
+  border-top: 1px solid #ddd;
+  background: #fff;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 50px;
+}
+#chatInput {
+  flex: 1;
+  padding: 12px 16px;
+  border: 1px solid #ccc;
+  border-radius: 20px;
+  font-size: 1rem;
+  outline: none;
+}
+
+/* ICON BUTTONS */
+.iconBtn {
+  width: 42px;
+  height: 42px;
+  border: none;
+  background: #f4f4f4;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: 0.15s;
+}
+.iconBtn:hover { background:#e9e9e9; }
+.iconImg { width:20px; height:20px; pointer-events:none; }
+
+/* MIC ACTIVE BLINK */
+.iconBtn.activeMic {
+  animation: micBlink 0.9s infinite;
+}
+@keyframes micBlink {
+  0%{background:#ec8181;} 50%{background:#ee3f3f;} 100%{background:#f09292;}
+}
+
+/* RIGHT TOOLBAR */
+#rightToolbar {
+  position: fixed;
+  right: 16px;
+  bottom: 50%;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  z-index: 999;
+}
+.toolIcon {
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+  background: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  box-shadow: 0 6px 16px rgba(2,6,23,.12);
+  cursor: pointer;
+}
+.toolIcon:hover{
+  background:#e7effc;
+}
+
+/* MODAL */
+.modalBackdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.45);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 9998;
+}
+
+.customModal {
+  background: #fff;
+  width: 720px;
+  max-height: 80vh;
+  padding: 20px;
+  border-radius: 12px;
+  overflow-y: auto;
+  z-index: 9999; /* nằm trên backdrop */
+}
+.modalHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+.modalHeader h3 { 
+  font-size: 26px;
+  font-weight: bold;
+  color: #0bd4f7;
+  margin: 0;
+}
+
+
+
+/* VOCAB TABLE */
+.vocabTable { width: 100%; border-collapse: collapse; }
+.vocabTable th, .vocabTable td {
+  padding: 10px;
+  border-bottom: 1px solid #e7e7e7;
+  text-align: left;
+}
+.smallBtn {
+  padding: 6px 8px;
+  border-radius: 8px;
+  border: 0;
+  cursor: pointer;
+}
+.vocabActions button {
+  margin-right: 6px;
+  padding: 6px 8px;
+  border-radius: 8px;
+  border: 0;
+  cursor: pointer;
+}
+
+/* --- DASHBOARD  --- */
+
+.dashContent {
+  background: #fff;
+  padding: 25px;
+  border-radius: 18px;
+  width: 90%;
+  max-width: 650px;
+  animation: pop 0.25s ease;
+}
+
+@keyframes pop {
+  0% { transform: scale(0.85); opacity: 0 }
+  100% { transform: scale(1); opacity: 1 }
+}
+
+.dashTitle {
+  font-size: 26px;
+  font-weight: bold;
+  color: #0bd4f7;
+  margin: 0;
+}
+
+.closeBtn {
+  background: transparent;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.statGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 15px;
+  margin: 18px 0;
+}
+
+.statCard {
+  background: #F5FFE9;
+  border: 2px solid #0bd4f7;
+  border-radius: 16px;
+  padding: 15px 10px;
+  text-align: center;
+}
+
+.statLabel {
+  font-size: 14px;
+  color: #5a5a5a;
+  margin-bottom: 5px;
+}
+
+.statValue {
+  font-size: 24px;
+  font-weight: bold;
+  color: #0bd4f7;
+}
+
+.rangeButtons {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin: 15px 0;
+}
+
+.rangeBtn {
+  padding: 8px 20px;
+  border-radius: 20px;
+  border: none;
+  background: #ddd;
+  cursor: pointer;
+  font-size: 15px;
+  transition: 0.2s;
+}
+
+.rangeBtn.active {
+  background: #0bd4f7;
+  color: white;
+}
+
+.rangeBtn:hover {
+  opacity: 0.8;
+}
+
+/* Chart */
+#studyChart {
+  margin-top: 10px;
+  max-height: 380px;
+}

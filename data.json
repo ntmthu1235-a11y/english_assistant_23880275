@@ -1,0 +1,421 @@
+{
+  "messages": [
+    {
+      "role": "user",
+      "text": "Hi! I want to improve my English speaking. Can you help me?",
+      "timestamp": "2025-12-09T08:10:00Z"
+    },
+    {
+      "role": "assistant",
+      "text": "Of course! Let's start with simple daily conversations. How do you usually practice English?",
+      "timestamp": "2025-12-09T08:10:15Z"
+    },
+    {
+      "role": "user",
+      "text": "I watch English movies, but I don’t speak much.",
+      "timestamp": "2025-12-09T08:10:40Z"
+    },
+    {
+      "role": "assistant",
+      "text": "That's a good start! Try repeating sentences out loud while watching. It helps with pronunciation and confidence.",
+      "timestamp": "2025-12-09T08:10:55Z"
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "improve",
+      "translation": "cải thiện",
+      "ipa": "/ɪmˈpruːv/",
+      "audio": "https://api.dictionaryapi.dev/media/pronunciations/en/improve-us.mp3",
+      "timeSaved": "2025-12-09T08:00:00Z",
+      "isLearned": false
+    },
+    {
+      "word": "confidence",
+      "translation": "sự tự tin",
+      "ipa": "/ˈkɒn.fɪ.dəns/",
+      "audio": "https://api.dictionaryapi.dev/media/pronunciations/en/confidence-us.mp3",
+      "timeSaved": "2025-12-09T08:01:00Z",
+      "isLearned": false
+    },
+    {
+      "word": "repeat",
+      "translation": "lặp lại",
+      "ipa": "/rɪˈpiːt/",
+      "audio": "https://api.dictionaryapi.dev/media/pronunciations/en/repeat-us.mp3",
+      "timeSaved": "2025-12-09T08:02:00Z",
+      "isLearned": false
+    }
+  ],
+  "dailyStats": [
+    {
+      "date": "2025-11-10",
+      "sessions": 2,
+      "studyMinutes": 15,
+      "newWords": 3
+    },
+    {
+      "date": "2025-11-11",
+      "sessions": 3,
+      "studyMinutes": 20,
+      "newWords": 5
+    },
+    {
+      "date": "2025-11-12",
+      "sessions": 1,
+      "studyMinutes": 10,
+      "newWords": 2
+    },
+    {
+      "date": "2025-11-13",
+      "sessions": 2,
+      "studyMinutes": 18,
+      "newWords": 4
+    },
+    {
+      "date": "2025-11-14",
+      "sessions": 3,
+      "studyMinutes": 22,
+      "newWords": 5
+    },
+    {
+      "date": "2025-11-15",
+      "sessions": 2,
+      "studyMinutes": 16,
+      "newWords": 3
+    },
+    {
+      "date": "2025-11-16",
+      "sessions": 3,
+      "studyMinutes": 25,
+      "newWords": 6
+    },
+    {
+      "date": "2025-11-17",
+      "sessions": 2,
+      "studyMinutes": 15,
+      "newWords": 4
+    },
+    {
+      "date": "2025-11-18",
+      "sessions": 3,
+      "studyMinutes": 24,
+      "newWords": 5
+    },
+    {
+      "date": "2025-11-19",
+      "sessions": 2,
+      "studyMinutes": 17,
+      "newWords": 3
+    },
+    {
+      "date": "2025-11-20",
+      "sessions": 3,
+      "studyMinutes": 26,
+      "newWords": 6
+    },
+    {
+      "date": "2025-11-21",
+      "sessions": 2,
+      "studyMinutes": 14,
+      "newWords": 3
+    },
+    {
+      "date": "2025-11-22",
+      "sessions": 3,
+      "studyMinutes": 21,
+      "newWords": 4
+    },
+    {
+      "date": "2025-11-23",
+      "sessions": 2,
+      "studyMinutes": 19,
+      "newWords": 5
+    },
+    {
+      "date": "2025-11-24",
+      "sessions": 3,
+      "studyMinutes": 25,
+      "newWords": 6
+    },
+    {
+      "date": "2025-11-25",
+      "sessions": 2,
+      "studyMinutes": 17,
+      "newWords": 4
+    },
+    {
+      "date": "2025-11-26",
+      "sessions": 3,
+      "studyMinutes": 22,
+      "newWords": 5
+    },
+    {
+      "date": "2025-11-27",
+      "sessions": 2,
+      "studyMinutes": 16,
+      "newWords": 4
+    },
+    {
+      "date": "2025-11-28",
+      "sessions": 3,
+      "studyMinutes": 23,
+      "newWords": 6
+    },
+    {
+      "date": "2025-11-29",
+      "sessions": 2,
+      "studyMinutes": 15,
+      "newWords": 3
+    },
+    {
+      "date": "2025-11-30",
+      "sessions": 3,
+      "studyMinutes": 24,
+      "newWords": 5
+    },
+    {
+      "date": "2025-12-01",
+      "sessions": 2,
+      "studyMinutes": 17,
+      "newWords": 3
+    },
+    {
+      "date": "2025-12-02",
+      "sessions": 3,
+      "studyMinutes": 25,
+      "newWords": 5
+    },
+    {
+      "date": "2025-12-03",
+      "sessions": 2,
+      "studyMinutes": 15,
+      "newWords": 4
+    },
+    {
+      "date": "2025-12-04",
+      "sessions": 3,
+      "studyMinutes": 20,
+      "newWords": 5
+    },
+    {
+      "date": "2025-12-05",
+      "sessions": 2,
+      "studyMinutes": 18,
+      "newWords": 3
+    },
+    {
+      "date": "2025-12-06",
+      "sessions": 3,
+      "studyMinutes": 25,
+      "newWords": 6
+    },
+    {
+      "date": "2025-12-07",
+      "sessions": 2,
+      "studyMinutes": 16,
+      "newWords": 3
+    },
+    {
+      "date": "2025-12-08",
+      "sessions": 3,
+      "studyMinutes": 24,
+      "newWords": 5
+    },
+    {
+      "date": "2025-12-09",
+      "sessions": 2,
+      "studyMinutes": 18,
+      "newWords": 4
+    }
+  ],
+  "dailyStudyTime": {
+    "2025-11-10": 900,
+    "2025-11-11": 1200,
+    "2025-11-12": 600,
+    "2025-11-13": 1080,
+    "2025-11-14": 1320,
+    "2025-11-15": 960,
+    "2025-11-16": 1500,
+    "2025-11-17": 900,
+    "2025-11-18": 1440,
+    "2025-11-19": 1020,
+    "2025-11-20": 1560,
+    "2025-11-21": 840,
+    "2025-11-22": 1260,
+    "2025-11-23": 1140,
+    "2025-11-24": 1500,
+    "2025-11-25": 1020,
+    "2025-11-26": 1320,
+    "2025-11-27": 960,
+    "2025-11-28": 1380,
+    "2025-11-29": 900,
+    "2025-11-30": 1440,
+    "2025-12-01": 1020,
+    "2025-12-02": 1500,
+    "2025-12-03": 900,
+    "2025-12-04": 1200,
+    "2025-12-05": 1080,
+    "2025-12-06": 1500,
+    "2025-12-07": 960,
+    "2025-12-08": 1440,
+    "2025-12-09": 1091
+  },
+  "sessionStats": [
+    {
+      "start": "2025-11-10T08:00:00.000Z",
+      "end": "2025-11-10T08:15:00.000Z",
+      "durationSeconds": 900
+    },
+    {
+      "start": "2025-11-11T08:05:00.000Z",
+      "end": "2025-11-11T08:25:00.000Z",
+      "durationSeconds": 1200
+    },
+    {
+      "start": "2025-11-12T18:30:00.000Z",
+      "end": "2025-11-12T18:40:00.000Z",
+      "durationSeconds": 600
+    },
+    {
+      "start": "2025-11-13T07:50:00.000Z",
+      "end": "2025-11-13T08:08:00.000Z",
+      "durationSeconds": 1080
+    },
+    {
+      "start": "2025-11-14T17:00:00.000Z",
+      "end": "2025-11-14T17:22:00.000Z",
+      "durationSeconds": 1320
+    },
+    {
+      "start": "2025-11-15T12:10:00.000Z",
+      "end": "2025-11-15T12:26:00.000Z",
+      "durationSeconds": 960
+    },
+    {
+      "start": "2025-11-16T09:30:00.000Z",
+      "end": "2025-11-16T09:55:00.000Z",
+      "durationSeconds": 1500
+    },
+    {
+      "start": "2025-11-17T20:00:00.000Z",
+      "end": "2025-11-17T20:15:00.000Z",
+      "durationSeconds": 900
+    },
+    {
+      "start": "2025-11-18T14:40:00.000Z",
+      "end": "2025-11-18T15:04:00.000Z",
+      "durationSeconds": 1440
+    },
+    {
+      "start": "2025-11-19T10:10:00.000Z",
+      "end": "2025-11-19T10:27:00.000Z",
+      "durationSeconds": 1020
+    },
+    {
+      "start": "2025-11-20T19:00:00.000Z",
+      "end": "2025-11-20T19:26:00.000Z",
+      "durationSeconds": 1560
+    },
+    {
+      "start": "2025-11-21T08:20:00.000Z",
+      "end": "2025-11-21T08:34:00.000Z",
+      "durationSeconds": 840
+    },
+    {
+      "start": "2025-11-22T13:00:00.000Z",
+      "end": "2025-11-22T13:21:00.000Z",
+      "durationSeconds": 1260
+    },
+    {
+      "start": "2025-11-23T07:30:00.000Z",
+      "end": "2025-11-23T07:49:00.000Z",
+      "durationSeconds": 1140
+    },
+    {
+      "start": "2025-11-24T16:10:00.000Z",
+      "end": "2025-11-24T16:35:00.000Z",
+      "durationSeconds": 1500
+    },
+    {
+      "start": "2025-11-25T09:05:00.000Z",
+      "end": "2025-11-25T09:22:00.000Z",
+      "durationSeconds": 1020
+    },
+    {
+      "start": "2025-11-26T18:40:00.000Z",
+      "end": "2025-11-26T19:02:00.000Z",
+      "durationSeconds": 1320
+    },
+    {
+      "start": "2025-11-27T11:10:00.000Z",
+      "end": "2025-11-27T11:26:00.000Z",
+      "durationSeconds": 960
+    },
+    {
+      "start": "2025-11-28T15:15:00.000Z",
+      "end": "2025-11-28T15:38:00.000Z",
+      "durationSeconds": 1380
+    },
+    {
+      "start": "2025-11-29T20:20:00.000Z",
+      "end": "2025-11-29T20:35:00.000Z",
+      "durationSeconds": 900
+    },
+    {
+      "start": "2025-11-30T08:45:00.000Z",
+      "end": "2025-11-30T09:09:00.000Z",
+      "durationSeconds": 1440
+    },
+    {
+      "start": "2025-12-01T07:50:00.000Z",
+      "end": "2025-12-01T08:07:00.000Z",
+      "durationSeconds": 1020
+    },
+    {
+      "start": "2025-12-02T18:00:00.000Z",
+      "end": "2025-12-02T18:25:00.000Z",
+      "durationSeconds": 1500
+    },
+    {
+      "start": "2025-12-03T12:00:00.000Z",
+      "end": "2025-12-03T12:15:00.000Z",
+      "durationSeconds": 900
+    },
+    {
+      "start": "2025-12-04T09:30:00.000Z",
+      "end": "2025-12-04T09:50:00.000Z",
+      "durationSeconds": 1200
+    },
+    {
+      "start": "2025-12-05T14:10:00.000Z",
+      "end": "2025-12-05T14:28:00.000Z",
+      "durationSeconds": 1080
+    },
+    {
+      "start": "2025-12-06T16:20:00.000Z",
+      "end": "2025-12-06T16:45:00.000Z",
+      "durationSeconds": 1500
+    },
+    {
+      "start": "2025-12-07T10:00:00.000Z",
+      "end": "2025-12-07T10:16:00.000Z",
+      "durationSeconds": 960
+    },
+    {
+      "start": "2025-12-08T13:30:00.000Z",
+      "end": "2025-12-08T13:54:00.000Z",
+      "durationSeconds": 1440
+    },
+    {
+      "start": "2025-12-09T15:37:14.824Z",
+      "end": "2025-12-09T15:37:27.040Z",
+      "durationSeconds": 12
+    },
+    {
+      "start": "2025-12-09T15:39:36.440Z",
+      "end": "2025-12-09T15:39:47.445Z",
+      "durationSeconds": 11
+    }
+  ]
+}
