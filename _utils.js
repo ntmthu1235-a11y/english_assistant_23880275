@@ -6,7 +6,6 @@ const redis = createClient({
 
 redis.on("error", (err) => console.error("Redis Client Error", err));
 
-// Kết nối trong async IIFE
 (async () => {
   try {
     await redis.connect();
@@ -23,6 +22,7 @@ redis.on("error", (err) => console.error("Redis Client Error", err));
   }
 })();
 
+// ---------- Helper đọc/ghi data ----------
 export async function readData() {
   const raw = await redis.get("app_data");
   if (!raw) {
