@@ -192,6 +192,7 @@ document.getElementById("sendBtn").onclick = ()=>{
 };
 const msgInput = document.getElementById("chatInput");
 
+//----Nhấn enter gửi message-----
 msgInput.addEventListener("keydown", e => {
   if (e.key === "Enter" && !e.shiftKey) {
     e.preventDefault();
