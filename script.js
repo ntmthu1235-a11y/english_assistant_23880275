@@ -357,7 +357,12 @@ document.body.addEventListener("click", async e => {
 
   globalPopup.style.display = "block";
 
-   // 2️⃣ Gửi request lưu từ vào vocab list
+   // Lấy danh sách từ hiện có trong vocab table
+const existingWords = Array.from(document.querySelectorAll('#vocabTbody .learnedChk'))
+  .map(chk => chk.dataset.word.toLowerCase());
+
+// Nếu từ chưa có → lưu
+if (!existingWords.includes(data.word.toLowerCase())) {
   try {
     await fetch('./api/vocab', {
       method: 'POST',
@@ -372,6 +377,10 @@ document.body.addEventListener("click", async e => {
   } catch (err) {
     console.error("❌ Error saving vocab:", err);
   }
+} else {
+  console.log(`"${data.word}" already exists in vocab list, skipping save.`);
+}
+
   // ---------------------------------------------------
   // 🔥 AUTO-POSITION KHÔNG BỊ CHE
   // ---------------------------------------------------
@@ -409,51 +418,6 @@ document.body.addEventListener("click", async e => {
   loadVocabList();
 });
 
-// document.body.addEventListener("click", async e => {
-//   if (isAIReading) return;
-//   if (e.target.closest(".playIPA")) return;
-//   if (e.target.closest("#globalWordPopup")) return;
-
-//   const wordEl = e.target.closest(".word");
-//   if (!wordEl) {
-//     globalPopup.style.display = "none";
-//     return;
-//   }
-
-//   const word = wordEl.dataset.word.toLowerCase();
-//   if(!word) return;
-
-//   const res = await fetch(`./api/translate?word=${word}`);
-//   const data = await res.json();
-
-//   globalPopup.innerHTML = `
-//     <strong>${data.word}</strong><br>
-//     <span style="color:#7cdfff">🇺🇸:</span><br>${data.englishMeaning || "—"}<br>
-//     <span style="color:#7cff94">🇻🇳:</span><br>${data.vietnameseMeaning || "—"}<br>
-//     <span style="color:#ff7a7a">IPA:</span> <em>${data.ipa || ""}</em><br><br>
-//     ${data.audio ? `<button class="playIPA" data-audio="${data.audio}">🔊 Play</button>` : ""}
-//   `;
-//   globalPopup.style.display = "block";
-
-//   // 2️⃣ Gửi request lưu từ vào vocab list
-//   try {
-//     await fetch('./api/vocab', {
-//       method: 'POST',
-//       headers: { 'Content-Type': 'application/json' },
-//       body: JSON.stringify({
-//         word: data.word,
-//         ipa: data.ipa,
-//         translation: data.vietnameseMeaning,
-//         audio: data.audio
-//       })
-//     });
-//   } catch (err) {
-//     console.error("❌ Error saving vocab:", err);
-//   }
-
-//   // 3️⃣ Load lại vocab table
-//   loadVocabList();
-// });
 /* =============================================
    VOCAB MODAL (TABLE) 
 ============================================= */
@@ -498,11 +462,21 @@ async function loadVocabList() {
       </td>
     `;
     vocabTbody.appendChild(tr);
+
   }
 
-  document.querySelectorAll('.playBtn').forEach(b => b.addEventListener('click', (e) => {
-    const url = e.currentTarget.dataset.audio; if (!url) return; new Audio(url).play();
-  }));
+  document.querySelectorAll('.delBtn').forEach(btn =>
+  btn.addEventListener('click', async (e) => {
+    const word = e.currentTarget.dataset.word;
+    try {
+      await fetch(`./api/vocab/${word}`, { method: 'DELETE' });
+      loadVocabList(); // reload sau khi xóa
+    } catch(err) {
+      console.error('❌ Error deleting vocab:', err);
+    }
+  })
+);
+
 
   document.querySelectorAll('.learnedChk').forEach(chk =>
     chk.addEventListener('change', async (e) => {
