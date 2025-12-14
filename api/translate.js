@@ -1,39 +1,113 @@
-import { readData, saveData } from "../_utils.js";
+// import { readData, saveData } from "../_utils.js";
+
+// export default async function handler(req, res) {
+//   if (req.method !== "GET") return res.status(405).end();
+//   const { word } = req.query;
+//   if (!word) return res.status(400).json({ error: "Missing word" });
+
+//   try {
+//     const dictRes = await fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${word}`);
+//     const dictJson = await dictRes.json();
+
+//     let englishMeaning = "", ipa = "", audio = "";
+//     if (Array.isArray(dictJson)) {
+//       const entry = dictJson[0];
+//       englishMeaning = entry.meanings?.[0]?.definitions?.[0]?.definition || "";
+//       ipa = entry.phonetics?.find(p => p.text)?.text || "";
+//       audio = entry.phonetics?.find(p => p.audio)?.audio || "";
+//     }
+
+//     const transRes = await fetch(`https://api.mymemory.translated.net/get?q=${encodeURIComponent(word)}&langpair=en|vi`);
+//     const transJson = await transRes.json();
+//     const vietnameseMeaning = transJson.responseData?.translatedText || "";
+
+//     const data = await readData();
+//     if (!data.vocabulary.find(v => v.word === word)) {
+//       data.vocabulary.unshift({
+//         word, translation: vietnameseMeaning, ipa, audio,
+//         timeSaved: Date.now(), isLearned: false
+//       });
+//       await saveData(data);
+//     }
+
+//     res.json({ word, englishMeaning, vietnameseMeaning, ipa, audio });
+//   } catch (err) {
+//     console.error(err);
+//     res.status(500).json({ error: "Translate error" });
+//   }
+// }
+
+// /api/translate.js
+import { getRedisClient } from '../_redis.js';
 
 export default async function handler(req, res) {
-  if (req.method !== "GET") return res.status(405).end();
+  if (req.method !== 'GET') return res.status(405).json({ error: 'Method not allowed' });
+
   const { word } = req.query;
-  if (!word) return res.status(400).json({ error: "Missing word" });
+  if (!word) return res.status(400).json({ error: 'Missing word' });
 
   try {
-    const dictRes = await fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${word}`);
+    // 1️⃣ Lấy từ điển tiếng Anh
+    const dictRes = await fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${encodeURIComponent(word)}`);
     const dictJson = await dictRes.json();
 
-    let englishMeaning = "", ipa = "", audio = "";
-    if (Array.isArray(dictJson)) {
+    let englishMeaning = '', ipa = '', audio = '';
+    if (Array.isArray(dictJson) && dictJson.length > 0) {
       const entry = dictJson[0];
-      englishMeaning = entry.meanings?.[0]?.definitions?.[0]?.definition || "";
-      ipa = entry.phonetics?.find(p => p.text)?.text || "";
-      audio = entry.phonetics?.find(p => p.audio)?.audio || "";
+
+      // safe phonetics
+      const phoneticsArray = Array.isArray(entry.phonetics) ? entry.phonetics : [];
+      ipa = phoneticsArray.find(p => p.text)?.text || '';
+      audio = phoneticsArray.find(p => p.audio)?.audio || '';
+
+      // safe meaning
+      englishMeaning = Array.isArray(entry.meanings) && entry.meanings.length > 0
+        ? entry.meanings[0].definitions?.[0]?.definition || ''
+        : '';
     }
 
+    // 2️⃣ Dịch sang tiếng Việt
     const transRes = await fetch(`https://api.mymemory.translated.net/get?q=${encodeURIComponent(word)}&langpair=en|vi`);
     const transJson = await transRes.json();
-    const vietnameseMeaning = transJson.responseData?.translatedText || "";
+    const vietnameseMeaning = transJson.responseData?.translatedText || '';
 
-    const data = await readData();
-    if (!data.vocabulary.find(v => v.word === word)) {
-      data.vocabulary.unshift({
-        word, translation: vietnameseMeaning, ipa, audio,
-        timeSaved: Date.now(), isLearned: false
+    // 3️⃣ Lưu vào Redis vocab
+    const client = await getRedisClient();
+    const rawVocab = await client.get('vocabList');
+    const vocab = rawVocab ? JSON.parse(rawVocab) : [];
+
+    const exists = vocab.find(v => v.word.toLowerCase() === word.toLowerCase());
+    if (!exists) {
+      vocab.push({
+        word,
+        translation: vietnameseMeaning,
+        ipa,
+        audio,
+        timeSaved: Date.now(),
+        isLearned: false
       });
-      await saveData(data);
+      await client.set('vocabList', JSON.stringify(vocab));
     }
 
-    res.json({ word, englishMeaning, vietnameseMeaning, ipa, audio });
+    // 4️⃣ Trả dữ liệu về frontend (luôn đầy đủ)
+    res.status(200).json({
+      word,
+      englishMeaning,
+      vietnameseMeaning,
+      ipa,
+      audio
+    });
+
   } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: "Translate error" });
+    console.error('❌ /api/translate error:', err);
+
+    // trả mặc định để popup vẫn hiển thị
+    res.status(200).json({
+      word: word || '',
+      englishMeaning: '',
+      vietnameseMeaning: '',
+      ipa: '',
+      audio: ''
+    });
   }
 }
-
