@@ -36,15 +36,34 @@ export default async function handler(req, res) {
   }
 
   if (req.method === 'POST') {
-    const { word, translation } = req.body;
+    const { word, translation, ipa, audio } = req.body; // nhận đủ thông tin
+    if (!word) return res.status(400).json({ error: "Missing word" });
+
     const data = await client.get('vocabList');
     const vocab = data ? JSON.parse(data) : [];
 
-    vocab.push({ word, translation, timeSaved: Date.now() });
+    // Kiểm tra xem từ đã có chưa
+    const existing = vocab.find(v => v.word.toLowerCase() === word.toLowerCase());
+    if (existing) {
+      // Nếu đã có, giữ nguyên dữ liệu cũ, không overwrite
+      return res.status(200).json({ status: 'exists', vocab });
+    }
+
+    // Nếu chưa có → thêm object đầy đủ
+    vocab.push({
+      word,
+      translation: translation || '',
+      ipa: ipa || '',
+      audio: audio || '',
+      timeSaved: Date.now(),
+      isLearned: false
+    });
+
     await client.set('vocabList', JSON.stringify(vocab));
     return res.status(200).json({ status: 'ok', vocab });
   }
 
-  res.status(405).end();
+  res.status(405).json({ error: 'Method not allowed' });
 }
+
 

@@ -365,15 +365,17 @@ const existingWords = Array.from(document.querySelectorAll('#vocabTbody .learned
 if (!existingWords.includes(data.word.toLowerCase())) {
   try {
     await fetch('./api/vocab', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        word: data.word,
-        ipa: data.ipa,
-        translation: data.vietnameseMeaning,
-        audio: data.audio
-      })
-    });
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      word: data.word,
+      ipa: data.ipa || "",
+      translation: data.vietnameseMeaning || "",
+      audio: data.audio || "",
+      isLearned: false,
+      timeSaved: Date.now()
+    })
+  });
   } catch (err) {
     console.error("❌ Error saving vocab:", err);
   }
