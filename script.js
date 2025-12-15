@@ -26,6 +26,23 @@ function addMessage(text, sender) {
   const row = document.createElement("div");
   row.className = "messageRow";
   const isAI = sender === "ai";
+ const isGrammar = sender === "ai-grammar"; 
+
+  // ================================
+  // ⭐ 1) GRAMMAR MESSAGE → render raw
+  // ================================
+  if (isGrammar) {
+    row.innerHTML = `
+      <img class="avatar" src="images/avtAI.png">
+      <div class="msgBubble aiMsg grammarMsg">
+        ${text}
+      </div>
+    `;
+
+    document.querySelector("#chatContainer").appendChild(row);
+    setTimeout(() => row.scrollIntoView({ behavior: "smooth", block: "end" }), 100);
+    return; // 🚫 KHÔNG chạy logic bên dưới
+  }
 
   // 🌟 Danh sách cụm từ cố định
   const phrases = [
@@ -171,7 +188,7 @@ async function sendMessage(text) {
 
       ✔️ <b>Corrected Sentence:</b><br>
       ${data.grammar.suggestion || "—"}
-    `, "ai");
+    `, "ai-grammar");
   }
 
   // ================================
