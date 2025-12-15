@@ -1,4 +1,4 @@
-
+//sesion-end.js
 import { getRedisClient } from '../_redis.js';
 
 export default async function handler(req, res) {

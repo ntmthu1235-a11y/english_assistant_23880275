@@ -1,5 +1,5 @@
+//chat-grammar.js
 import { OpenAI } from "openai";
-import { readData, saveData } from "../_utils.js";
 
 const client = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
