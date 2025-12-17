@@ -6,7 +6,6 @@ const backend = "";
 ============================================= */
 let autoListen = true;
 let isAIReading = false;
-let isListening = false;
 
 const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
 recognition.lang = "en-US";
@@ -29,7 +28,7 @@ function addMessage(text, sender) {
  const isGrammar = sender === "ai-grammar"; 
 
   // ================================
-  // ⭐ 1) GRAMMAR MESSAGE → render raw
+  //  GRAMMAR MESSAGE 
   // ================================
   if (isGrammar) {
     row.innerHTML = `
@@ -41,10 +40,10 @@ function addMessage(text, sender) {
 
     document.querySelector("#chatContainer").appendChild(row);
     setTimeout(() => row.scrollIntoView({ behavior: "smooth", block: "end" }), 100);
-    return; // 🚫 KHÔNG chạy logic bên dưới
+    return; //  KHÔNG chạy logic bên dưới
   }
 
-  // 🌟 Danh sách cụm từ cố định
+  // Danh sách cụm từ cố định
   const phrases = [
     "of course",
     "take care",
@@ -56,7 +55,7 @@ function addMessage(text, sender) {
     "good night"
   ];
 
-  // 🌟 Danh sách contraction phổ biến
+  // Danh sách contraction phổ biến
   const contractions = {
     "i'd": "I would / I had",
     "i'm": "I am",
@@ -90,7 +89,7 @@ function addMessage(text, sender) {
     "let's": "let us"
   };
 
-  // 🌟 Thay cụm bằng placeholder để tránh split sai
+  //  Thay cụm bằng placeholder để tránh split sai
   let content = text;
   const phraseSpans = [];
   phrases.forEach(p => {
@@ -102,7 +101,7 @@ function addMessage(text, sender) {
     });
   });
 
-  // 🌟 Tạo HTML từng từ
+  // Tạo HTML từng từ
   const words = content.split(" ").map(w => {
     const foundPhrase = phraseSpans.find(p => w.includes(p.id));
     if (foundPhrase) {
@@ -131,7 +130,7 @@ function addMessage(text, sender) {
     return w;
   });
 
-  // 🌟 Gắn vào giao diện
+  //  Gắn vào giao diện
   row.innerHTML = `
     ${isAI ? `<img class="avatar" src="images/avtAI.png">` : ""}
     <div class="msgBubble ${isAI ? "aiMsg" : "userMsg"}">
@@ -192,7 +191,7 @@ async function sendMessage(text) {
   }
 
   // ================================
-  // 🔥 2) AI REPLY HỘI THOẠI
+  // AI REPLY HỘI THOẠI
   // ================================
   addMessage(data.reply, "ai");
   speak(data.reply);
@@ -238,7 +237,7 @@ function speak(text) {
     };
 
     speechSynthesis.speak(u);
-  }, 150);  // <-- Chrome cần 100–150ms, bạn đang bị thiếu
+  }, 150);  // <-- Chrome cần 100–150ms
 }
 
 
@@ -642,7 +641,6 @@ window.addEventListener("beforeunload", () => {
     console.error("❌ Error sending session:", err);
   });
 });
-
 
 
 // --------- RANGE BUTTON EVENTS ---------
