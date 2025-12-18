@@ -14,13 +14,13 @@ export default async function handler(req, res) {
         {
           role: "system",
           content: `
-You analyze grammar AND continue the conversation.
-Always respond ONLY with valid JSON (no markdown, no commentary):
+                You analyze grammar AND continue the conversation.
+                Always respond ONLY with valid JSON (no markdown, no commentary):
 
-{
-  "grammar": { "errors": [], "explanation": "", "suggestion": "" },
-  "reply": ""
-}`
+                {
+                  "grammar": { "errors": [], "explanation": "", "suggestion": "" },
+                  "reply": ""
+                }`
         },
         { role: "user", content: userText }
       ]

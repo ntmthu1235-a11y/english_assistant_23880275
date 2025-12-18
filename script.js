@@ -2,7 +2,7 @@
 const backend = "";
 
 /* =============================================
-   AUTO LISTEN (MICROPHONE)
+   1> AUTO LISTEN (MICROPHONE)
 ============================================= */
 let autoListen = true;
 let isAIReading = false;
@@ -19,7 +19,7 @@ recognition.onresult = (e) => {
 recognition.onend = () => { if(autoListen && !isAIReading) recognition.start(); };
 
 /* =============================================
-   ADD CHAT MESSAGE TO UI
+  2> ADD CHAT MESSAGE TO UI
 ============================================= */
 function addMessage(text, sender) {
   const row = document.createElement("div");
@@ -146,7 +146,7 @@ function addMessage(text, sender) {
 
 
 /* =============================================
-   SEND MESSAGE TO BACKEND (GRAMMAR + REPLY)
+  3> SEND MESSAGE TO BACKEND (GRAMMAR + REPLY)
 ============================================= */
 
 async function sendMessage(text) {
@@ -197,10 +197,12 @@ async function sendMessage(text) {
   speak(data.reply);
 }
 
-
+// ------------BUTTON SEND-----------
 document.getElementById("sendBtn").onclick = ()=>{
   sendMessage(document.getElementById("chatInput").value);
 };
+
+
 const msgInput = document.getElementById("chatInput");
 
 //----Nhấn enter gửi message-----
@@ -213,8 +215,9 @@ msgInput.addEventListener("keydown", e => {
     msgInput.value = "";
   }
 });
+
 /* =============================================
-   TTS – NORMAL AI SPEAK
+  4> TTS – NORMAL AI SPEAK
 ============================================= */
 function speak(text) {
   if (!text) return;
@@ -242,7 +245,7 @@ function speak(text) {
 
 
 /* =============================================
-   AI TTS BUTTON 🔊 INSIDE BUBBLE
+  5> AI TTS BUTTON 🔊 INSIDE BUBBLE
 ============================================= */
 function speakAI(btn) {
   document.querySelectorAll(".wordPopup").forEach(p => p.style.display = "none");
@@ -255,10 +258,10 @@ function speakAI(btn) {
   u.lang = "en-US";
   u.onend = () => { isAIReading = false; };
   speechSynthesis.speak(u);
-}
+} 
 
 /* =============================================
-   MIC BUTTON LOGIC
+   6> MIC BUTTON LOGIC
 ============================================= */
 const micBtn = document.getElementById("micBtn");
 
@@ -326,7 +329,7 @@ recognition.onerror = (e) => {
 };
 
 /* =============================================
-   CLICK WORD → TRANSLATE POPUP (GLOBAL POPUP)
+  7> CLICK WORD → TRANSLATE POPUP (GLOBAL POPUP)
 ============================================= */
 const globalPopup = document.getElementById("globalWordPopup");
 
@@ -438,7 +441,7 @@ if (!existingWords.includes(data.word.toLowerCase())) {
 });
 
 /* =============================================
-   VOCAB MODAL (TABLE) 
+  8> VOCAB MODAL (TABLE) 
 ============================================= */
 const vocabModal = document.getElementById('vocabModal');
 const vocabTbody = document.getElementById('vocabTbody');
@@ -482,8 +485,9 @@ async function loadVocabList() {
     vocabTbody.appendChild(tr);
   }
 }
-
-// --- Event delegation cho delete + play audio + checkbox learned ---
+/* =============================================
+  9> Event delegation cho delete + play audio + checkbox learned
+============================================= */
 vocabTbody.addEventListener('click', async (e) => {
   const playBtn = e.target.closest('.playBtn');
   if (playBtn) {
@@ -536,15 +540,16 @@ vocabModal.addEventListener('click', (e)=>{
 
 
 /* =============================================
-   CLOSE ALL SMALL POPUPS WHEN CLICK OUTSIDE
+  10> CLOSE ALL SMALL POPUPS WHEN CLICK OUTSIDE
 ============================================= */
 document.addEventListener("click", () => {
   document.querySelectorAll(".wordPopup").forEach(p => p.style.display = "none");
 });
 
 let chart;
-
-// -------- LOAD DASHBOARD --------
+/* =============================================
+ 11> LOAD DASHBOARD
+============================================= */
 async function loadDashboard(range = 7) {
   // Load daily study (hours)
   const res = await fetch(`./api/stats-daily-study${range === 30 ? "?range=30" : ""}`);
@@ -609,7 +614,7 @@ async function loadDashboard(range = 7) {
   });
 }
 /* =============================================
-   SESSION TRACKING — TÍNH GIỜ HỌC
+  12> SESSION TRACKING — TÍNH GIỜ HỌC
 ============================================= */
 
 // Bắt đầu session khi mở trang
