@@ -22,7 +22,17 @@ export default async function handler(req, res) {
     const completion = await client.chat.completions.create({
       model: "gpt-4o-mini",
       messages: [
-        { role: "system", content: "You are a friendly English speaking assistant." },
+        {  role: "system",
+          content: `
+        You are an English speaking assistant.
+        You understand Vietnamese and English.
+
+        If the user speaks Vietnamese:
+        - Reply in English
+        - Then add a short Vietnamese explanation in parentheses.
+
+        Keep answers concise and friendly.
+        ` },
         { role: "user", content: message }
       ]
     });
