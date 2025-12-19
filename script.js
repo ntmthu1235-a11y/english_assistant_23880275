@@ -29,6 +29,14 @@ recognition.onend = () => {
   if (autoListen && !isAIReading) recognition.start();
 };
 
+// Lắng nghe sự thay đổi trạng thái của nút Auto Mode (ON/OFF)
+const autoModeSwitch = document.getElementById('autoModeSwitch');
+
+// Cập nhật giá trị của autoListen khi người dùng thay đổi trạng thái checkbox
+autoModeSwitch.addEventListener('change', () => {
+  autoListen = autoModeSwitch.checked; // Cập nhật autoListen thành true/false
+  console.log('Auto Mode is', autoListen ? 'ON' : 'OFF');
+});
 
 /* =============================================
   2> ADD CHAT MESSAGE TO UI
@@ -659,14 +667,7 @@ window.addEventListener("beforeunload", () => {
   });
 });
 
-// Lắng nghe sự thay đổi trạng thái của nút Auto Mode (ON/OFF)
-const autoModeSwitch = document.getElementById('autoModeSwitch');
 
-// Cập nhật giá trị của autoListen khi người dùng thay đổi trạng thái checkbox
-autoModeSwitch.addEventListener('change', () => {
-  autoListen = autoModeSwitch.checked; // Cập nhật autoListen thành true/false
-  console.log('Auto Mode is', autoListen ? 'ON' : 'OFF');
-});
 
 // --------- RANGE BUTTON EVENTS ---------
 document.getElementById("btn7").onclick = () => {
