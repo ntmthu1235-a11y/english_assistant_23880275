@@ -1,22 +1,34 @@
 // ===== CONFIG =====
-const backend = "";
-
+let autoListen = true;  // Chế độ autoListen, bật/tắt tự động gửi tin nhắn
 /* =============================================
-   1> AUTO LISTEN (MICROPHONE)
+  1> AUTO LISTEN (MICROPHONE)
 ============================================= */
-let autoListen = true;
-let isAIReading = false;
-
+// Thiết lập nhận diện giọng nói
 const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
 recognition.lang = "en-US";
 recognition.continuous = false;
 recognition.interimResults = true;
 
+// Hàm xử lý kết quả nhận dạng
 recognition.onresult = (e) => {
   const result = e.results[0];
-  if(result.isFinal) sendMessage(result[0].transcript);
+
+  // Nếu autoListen bật, tự động gửi
+  if (autoListen) {
+    if (result.isFinal) sendMessage(result[0].transcript);
+  } else {
+    // Nếu autoListen tắt, hiển thị vào ô input để người dùng chỉnh sửa
+    if (result.isFinal) {
+      document.getElementById("chatInput").value = result[0].transcript;
+    }
+  }
 };
-recognition.onend = () => { if(autoListen && !isAIReading) recognition.start(); };
+
+// Khi nhận dạng kết thúc
+recognition.onend = () => {
+  if (autoListen && !isAIReading) recognition.start();
+};
+
 
 /* =============================================
   2> ADD CHAT MESSAGE TO UI
@@ -647,6 +659,14 @@ window.addEventListener("beforeunload", () => {
   });
 });
 
+// Lắng nghe sự thay đổi trạng thái của nút Auto Mode (ON/OFF)
+const autoModeSwitch = document.getElementById('autoModeSwitch');
+
+// Cập nhật giá trị của autoListen khi người dùng thay đổi trạng thái checkbox
+autoModeSwitch.addEventListener('change', () => {
+  autoListen = autoModeSwitch.checked; // Cập nhật autoListen thành true/false
+  console.log('Auto Mode is', autoListen ? 'ON' : 'OFF');
+});
 
 // --------- RANGE BUTTON EVENTS ---------
 document.getElementById("btn7").onclick = () => {

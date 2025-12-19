@@ -342,3 +342,60 @@ header {
   margin-top: 10px;
   max-height: 380px;
 }
+
+/* Style cho container chứa nút */
+.auto-mode-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 10px;
+  font-size: 16px;
+}
+
+/* Style cho nhãn Auto Mode */
+.auto-mode-label {
+  font-size: 16px;
+  margin-right: 10px;
+}
+
+/* Style cho slider ON/OFF */
+.switch {
+  position: relative;
+}
+
+.switch-input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.switch-slider {
+  position: relative;
+  display: block;
+  width: 50px;
+  height: 24px;
+  background-color: #ccc;
+  border-radius: 50px;
+  transition: 0.4s;
+  cursor: pointer;
+}
+
+.switch-slider::before {
+  content: "";
+  position: absolute;
+  left: 4px;
+  top: 4px;
+  width: 16px;
+  height: 16px;
+  background-color: white;
+  border-radius: 50%;
+  transition: 0.4s;
+}
+
+.switch-input:checked + .switch-slider {
+  background-color: #4CAF50;
+}
+
+.switch-input:checked + .switch-slider::before {
+  transform: translateX(26px);
+}
