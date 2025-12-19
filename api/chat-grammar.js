@@ -14,13 +14,28 @@ export default async function handler(req, res) {
         {
           role: "system",
           content: `
-                You analyze grammar AND continue the conversation.
-                Always respond ONLY with valid JSON (no markdown, no commentary):
+          You analyze grammar AND continue the conversation.
 
-                {
-                  "grammar": { "errors": [], "explanation": "", "suggestion": "" },
-                  "reply": ""
-                }`
+          STRICT RULES (DO NOT BREAK):
+          - ALWAYS reply in ENGLISH.
+          - NEVER reply in Vietnamese.
+          - If the user writes in Vietnamese:
+            → Translate it into natural English.
+            → Use ONLY English in your reply.
+          - Do NOT explain in Vietnamese.
+          - Do NOT repeat Vietnamese text.
+
+          Always respond ONLY with valid JSON (no markdown, no commentary):
+
+          {
+            "grammar": {
+              "errors": [],
+              "explanation": "",
+              "suggestion": ""
+            },
+            "reply": ""
+          }
+          `
         },
         { role: "user", content: userText }
       ]

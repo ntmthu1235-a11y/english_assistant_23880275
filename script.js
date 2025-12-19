@@ -1,5 +1,5 @@
 // ===== CONFIG =====
-let autoListen = true;  // Chế độ autoListen, bật/tắt tự động gửi tin nhắn
+let autoListen = false;  // Chế độ autoListen, bật/tắt tự động gửi tin nhắn
 /* =============================================
   1> AUTO LISTEN (MICROPHONE)
 ============================================= */
