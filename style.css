@@ -343,18 +343,19 @@ header {
   max-height: 380px;
 }
 
-/* AUTO MODE IN INPUT BAR */
+
+/* AUTO MODE  */
 .auto-mode-container {
   display: flex;
   align-items: center;
   gap: 6px;
   padding: 4px 8px;
-  border-radius: 16px;
-  background: #f1f3f4;
-  position: relative;
+  border-radius: 18px;
+  background: #f4f4f4;
+  transition: background 0.25s;
 }
 
-/* LABEL: ẩn mặc định */
+/* Hover hiện label */
 .auto-mode-label {
   font-size: 13px;
   color: #555;
@@ -365,44 +366,42 @@ header {
   transition: all 0.25s ease;
 }
 
-/* Hover mới hiện chữ */
 .auto-mode-container:hover .auto-mode-label {
   opacity: 1;
-  max-width: 100px;
+  max-width: 110px;
 }
 
-/* SWITCH kiểu app */
-.switch {
-  position: relative;
-}
-
+/* SWITCH = thanh trượt */
 .switch-slider {
-  width: 38px;
-  height: 20px;
-  background: #ccc;
-  border-radius: 20px;
+  width: 42px;
+  height: 22px;
+  background: #cfcfcf;
+  border-radius: 22px;
   transition: 0.25s;
+  box-shadow: inset 0 0 3px rgba(0,0,0,0.2);
 }
 
+/* Nút tròn */
 .switch-slider::before {
   content: "";
   position: absolute;
-  width: 14px;
-  height: 14px;
+  width: 16px;
+  height: 16px;
   left: 3px;
   top: 3px;
-  background: #fff;
+  background: white;
   border-radius: 50%;
   transition: 0.25s;
 }
 
-/* ON → xanh */
+/* AUTO MODE ON → xanh mic */
 .switch-input:checked + .switch-slider {
-  background: #0bd4f7;
+  background: #0bd4f7; /* đồng bộ mic */
 }
 
+/* Trượt nút */
 .switch-input:checked + .switch-slider::before {
-  transform: translateX(18px);
+  transform: translateX(20px);
 }
 
 
