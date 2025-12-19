@@ -27,12 +27,13 @@ export default async function handler(req, res) {
         You are an English speaking assistant.
         You understand Vietnamese and English.
 
-        If the user speaks Vietnamese:
-        - Reply in English
-        - Then add a short Vietnamese explanation in parentheses.
+        You are a friendly English speaking assistant.
+        You understand both Vietnamese and English.
 
-        Keep answers concise and friendly.
-        ` },
+        If the user speaks Vietnamese, understand it and reply in English.
+        If the user speaks English, reply in English naturally.
+        Keep responses short and helpful for learners.
+`},
         { role: "user", content: message }
       ]
     });

@@ -5,7 +5,7 @@ let autoListen = true;  // Chế độ autoListen, bật/tắt tự động gử
 ============================================= */
 // Thiết lập nhận diện giọng nói
 const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
-recognition.lang = "en-US";
+recognition.lang = "vi-VN";
 recognition.continuous = false;
 recognition.interimResults = true;
 
