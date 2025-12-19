@@ -76,38 +76,38 @@ function addMessage(text, sender) {
   ];
 
   // Danh sách contraction phổ biến
-  const contractions = {
-    "i'd": "I would / I had",
-    "i'm": "I am",
-    "i've": "I have",
-    "you're": "you are",
-    "you've": "you have",
-    "you'd": "you would / you had",
-    "he's": "he is / he has",
-    "she's": "she is / she has",
-    "it's": "it is / it has",
-    "we're": "we are",
-    "we've": "we have",
-    "we'd": "we would / we had",
-    "they're": "they are",
-    "they've": "they have",
-    "they'd": "they would / they had",
-    "don't": "do not",
-    "doesn't": "does not",
-    "can't": "cannot",
-    "won't": "will not",
-    "isn't": "is not",
-    "aren't": "are not",
-    "wasn't": "was not",
-    "weren't": "were not",
-    "shouldn't": "should not",
-    "wouldn't": "would not",
-    "couldn't": "could not",
-    "haven't": "have not",
-    "hasn't": "has not",
-    "hadn't": "had not",
-    "let's": "let us"
-  };
+  // const contractions = {
+  //   "i'd": "I would / I had",
+  //   "i'm": "I am",
+  //   "i've": "I have",
+  //   "you're": "you are",
+  //   "you've": "you have",
+  //   "you'd": "you would / you had",
+  //   "he's": "he is / he has",
+  //   "she's": "she is / she has",
+  //   "it's": "it is / it has",
+  //   "we're": "we are",
+  //   "we've": "we have",
+  //   "we'd": "we would / we had",
+  //   "they're": "they are",
+  //   "they've": "they have",
+  //   "they'd": "they would / they had",
+  //   "don't": "do not",
+  //   "doesn't": "does not",
+  //   "can't": "cannot",
+  //   "won't": "will not",
+  //   "isn't": "is not",
+  //   "aren't": "are not",
+  //   "wasn't": "was not",
+  //   "weren't": "were not",
+  //   "shouldn't": "should not",
+  //   "wouldn't": "would not",
+  //   "couldn't": "could not",
+  //   "haven't": "have not",
+  //   "hasn't": "has not",
+  //   "hadn't": "had not",
+  //   "let's": "let us"
+  // };
 
   //  Thay cụm bằng placeholder để tránh split sai
   let content = text;
@@ -135,9 +135,9 @@ function addMessage(text, sender) {
     const clean = w.replace(/[.,!?]/g, "").toLowerCase();
 
     // contraction → giữ nguyên, không popup, không gạch chân
-    if (contractions[clean]) {
-      return `<span class="word contraction">${w}</span>`;
-    }
+    // if (contractions[clean]) {
+    //   return `<span class="word contraction">${w}</span>`;
+    // }
 
     // từ thường → highlight + popup nghĩa
     if (clean) {
