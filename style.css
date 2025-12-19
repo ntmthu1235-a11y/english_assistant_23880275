@@ -343,26 +343,21 @@ header {
   max-height: 380px;
 }
 
-/* AUTO MODE – floating giữa input bar */
+/* AUTO MODE IN INPUT BAR */
 .auto-mode-container {
-  position: fixed;
-  bottom: 62px;              /* nằm ngay trên input bar */
-  left: 50%;
-  transform: translateX(-50%);
   display: flex;
   align-items: center;
-  gap: 8px;
-  background: rgba(255,255,255,0.9);
-  padding: 6px 10px;
-  border-radius: 20px;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.15);
-  z-index: 999;
+  gap: 6px;
+  padding: 4px 8px;
+  border-radius: 16px;
+  background: #f1f3f4;
+  position: relative;
 }
 
 /* LABEL: ẩn mặc định */
 .auto-mode-label {
-  font-size: 14px;
-  color: #333;
+  font-size: 13px;
+  color: #555;
   opacity: 0;
   max-width: 0;
   overflow: hidden;
@@ -370,25 +365,44 @@ header {
   transition: all 0.25s ease;
 }
 
-/* Hover mới hiện label */
+/* Hover mới hiện chữ */
 .auto-mode-container:hover .auto-mode-label {
   opacity: 1;
   max-width: 100px;
 }
 
-/* Switch nhỏ gọn hơn cho hợp UI */
+/* SWITCH kiểu app */
+.switch {
+  position: relative;
+}
+
 .switch-slider {
-  width: 44px;
-  height: 22px;
+  width: 38px;
+  height: 20px;
+  background: #ccc;
+  border-radius: 20px;
+  transition: 0.25s;
 }
 
 .switch-slider::before {
+  content: "";
+  position: absolute;
   width: 14px;
   height: 14px;
-  top: 4px;
-  left: 4px;
+  left: 3px;
+  top: 3px;
+  background: #fff;
+  border-radius: 50%;
+  transition: 0.25s;
+}
+
+/* ON → xanh */
+.switch-input:checked + .switch-slider {
+  background: #0bd4f7;
 }
 
 .switch-input:checked + .switch-slider::before {
-  transform: translateX(22px);
+  transform: translateX(18px);
 }
+
+
