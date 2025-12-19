@@ -11,14 +11,7 @@
 <body>
 
 <header>Speaking English Assistant 💬</header>
-<!-- Nút Auto Mode ON/OFF -->
-<div class="auto-mode-container">
-  <label class="auto-mode-label">Auto Mode</label>
-  <div class="switch">
-    <input type="checkbox" id="autoModeSwitch" class="switch-input">
-    <span class="switch-slider"></span>
-  </div>
-</div>
+
 
 <div id="app">
   <div id="chatWrap">
@@ -28,6 +21,14 @@
   <!-- Input bar ALWAYS at bottom -->
   <div id="inputBar">
     <input id="chatInput" placeholder="Type a message...">
+    <!-- Nút Auto Mode ON/OFF -->
+    <div class="auto-mode-container">
+    <label class="auto-mode-label">Auto Mode</label>
+    <div class="switch">
+      <input type="checkbox" id="autoModeSwitch" class="switch-input">
+      <span class="switch-slider"></span>
+    </div>
+    </div>
     <button id="sendBtn" class="iconBtn"><img src="images/send.png" class="iconImg" alt="send"></button>
     <button id="micBtn" class="iconBtn"><img src="images/mic.png" class="iconImg" alt="mic"></button>
   </div>
